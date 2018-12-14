@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<title>
+    Comp Assests
+</title>
+<!--- styling -->
+<link rel="stylesheet" type="text/css" href="css/comp.css" />
+
+<body>
+    <!--- welcome page-->
+    <header class="dashboard-header">
+        <nav class="dashboard-nav">
+            <ul>
+                <li>Welcome</li>
+                <li><button>Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="welcome-page">
+        <div class="dashboard">
+            <h3>Companies view list</h3>
+            <div id="cont-cont"></div>
+        </div>
+    </div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script>
+    ///getting id from address bar
+    function ParseURLParameter(Parameter) {
+        var FullURL = window.location.search.substring(1);
+        var ParametersArray = FullURL.split('&');
+        for (var i = 0; i < ParametersArray.length; i++) {
+            var CurrentParameter = ParametersArray[i].split('=');
+
+            if (CurrentParameter[0] == Parameter) {
+                return CurrentParameter[1];
+            }
+        }
+    }
+    var PageName = ParseURLParameter('i');
+    setInterval(function() {
+        $.ajax({
+            type: "POST",
+            data: {
+                "done": 1,
+                user_id: PageName
+            },
+            url: "view.php",
+            success: function(resultu) {
+                $("#cont-cont").html(resultu);
+            },
+            error: function(e) {
+                alert("no network");
+            }
+        });
+    }, 1000);
+
+    /// close alerts //
+</script>
+
+</html>

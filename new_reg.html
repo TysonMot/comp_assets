@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<title>
+    Comp Assests
+</title>
+<!--- styling -->
+<link rel="stylesheet" type="text/css" href="css/comp.css" />
+
+<body>
+    <!--- welcome page-->
+    <div class="login-page">
+        <div class="login-form">
+            <h1>Add new company</h1>
+
+            <p>Enter all required deatils</p>
+            <span id="messgae"></span>
+            <input type="text" placeholder="Company Name" id="name">
+            <input type="email" placeholder="email@example.co.za" id="email">
+            <input type="text" placeholder="Company website" id="website">
+            <button id="register">Register</button>
+
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function() {
+        $("#register").click(function(event) {
+            ///////
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var webiste = $("#website").val();
+
+            var atpos = email.indexOf("@");
+            var dotpos = email.lastIndexOf(".");
+            ////
+            if (name == "" || email == "" || webiste == "") {
+                document.getElementById('message').innerHTML = 'Please fill all the fields';
+            } else if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= email.length) {
+                document.getElementById('message').innerHTML = 'Please enter a vaild email address';
+                return false;
+            } else if (password_confirm != password) {
+                document.getElementById('message').innerHTML = 'Password donn\'t match';
+            } else {
+                /////
+                $.ajax({
+                    type: "POST",
+                    url: "register.php",
+                    data: {
+                        "done": 1,
+                        name: name,
+                        email: email,
+                        webiste: webiste
+                    },
+                    cache: false,
+                    success: function(data) {
+                        if (data == 2) {
+                            $(".contents").hide();
+                            document.getElementById('message').innerHTML = 'Already registered,\n Please login';
+                            setInterval(function() {
+                                window.location.href = 'home.html';
+                            }, 5000);
+                        } else {
+                            $(".contents").hide();
+                            $(".loader-main").show();
+                            document.getElementById('feedback').innerHTML = 'Successfully registered,\n Now redirecting, an email has been sent to you';
+                            document.getElementById('message').innerHTML = '';
+                            setInterval(function() {
+                                window.location.href = 'home.html';
+                            }, 5000);
+                        }
+                    },
+                    error: function(e) {
+                        document.getElementById('message').innerHTML = 'No network, please make sure your connected to internet';
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+</html>

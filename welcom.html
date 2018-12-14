@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<title>
+    Comp Assests
+</title>
+<!--- styling -->
+<link rel="stylesheet" type="text/css" href="css/comp.css" />
+<script src="https://www.w3schools.com/js/myScript1.js"></script>
+
+<body>
+    <!--- welcome page-->
+    <header class="dashboard-header">
+        <nav class="dashboard-nav">
+            <ul>
+                <li><a href="new_reg.html">Add new company</a></li>
+
+            </ul>
+        </nav>
+    </header>
+    <div class="welcome-page">
+        <div class="dashboard">
+            <h3>Companies view list</h3>
+            <div id="cont-cont"></div>
+        </div>
+    </div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        load_data();
+
+        function load_data(page) {
+            $.ajax({
+                url: "companies.php",
+                method: "POST",
+                data: {
+                    page: page
+                },
+                success: function(data) {
+                    $('#cont-cont').html(data);
+                }
+            })
+        }
+        $(document).on('click', '.link', function() {
+            var page = $(this).attr("id");
+            load_data(page);
+        });
+    });
+
+    /// close alerts //
+</script>
+
+</html>
